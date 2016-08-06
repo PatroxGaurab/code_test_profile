@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html ng-app="meanApp">
+<head>
+  <title>MEAN stack authentication example</title>
+  <base href="/">
+  <link rel="stylesheet" href="/lib/bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/lib/bootstrap/css/bootstrap-theme.min.css">
+<script>
+function onLinkedInLoad() {
+	IN.Event.on(IN, "auth", function() {
+		onLinkedInLogin();
+	});
+	IN.Event.on(IN, "logout", function() {
+		onLinkedInLogout();
+	});
+}
+
+//execute on logout event
+function onLinkedInLogout() {
+	location.reload(true);
+}
+
+//execute on login event
+function onLinkedInLogin() {
+	// pass user info to angular
+	angular.element(document.getElementById("appBody")).scope().$apply(
+		function($scope) {
+			$scope.getCommitData();
+		}
+	);
+}
+</script>
+<script type="text/javascript" src="http://platform.linkedin.com/in.js">
+  //here goes the api key, and the callback function
+  api_key: 81vs6idram25fn
+  onLoad: onLinkedInLoad
+  authorize: true
+</script>
+</head>
+<body ng-view id="appBody" >
+
+
+  <script src="lib/angular/angular.min.js"></script>
+  <script src="lib/angular/angular-route.min.js"></script>
+  <script src="ng-file-upload-shim.min.js"></script>
+  <script src="ng-file-upload.min.js"></script>
+  <script src="app.min.js"></script>
+</body>
+</html>
